@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Menu from "../models/menu-model.js";
 
 const create = async (data) => {
@@ -10,6 +11,17 @@ const getAll = async () => {
 
 const getById = async (id) => {
   return await Menu.findByPk(id);
+};
+
+const getByIds = async (ids, options = {}) => {
+  return await Menu.findAll({
+    where: {
+      id: {
+        [Op.in]: ids,
+      },
+    },
+    ...options,
+  });
 };
 
 const update = async (id, data) => {
@@ -25,6 +37,7 @@ export default {
   create,
   getAll,
   getById,
+  getByIds,
   update,
   deleteById,
 };

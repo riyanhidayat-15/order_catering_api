@@ -3,9 +3,10 @@ import Menu from "../models/menu-model.js";
 import menuService from "../services/menu-service.js";
 
 const createMenuController = async (req, res) => {
+  console.log("Data:", req.body, req.file);
   try {
     req.body.price = Number(req.body.price);
-    const menu = await menuService.createMenu(req.body, req.files);
+    const menu = await menuService.createMenu(req.body, req.file);
     res.status(201).json({
       message: "Menu berhasil dibuat",
       data: menu,

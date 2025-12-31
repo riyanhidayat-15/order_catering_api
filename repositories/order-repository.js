@@ -1,8 +1,8 @@
-import OrderItems from "../models/order-items-model.js";
-import Order from "../models/order-model.js";
-
+import { Order, OrderItems } from "../models/index-model.js";
 const orderRepository = {
   create(data, options = {}) {
+    console.log("🏪 ORDER REPO HIT!"); // ← INI HARUS MUNCUL!
+
     return Order.create(data, options);
   },
 
@@ -10,13 +10,16 @@ const orderRepository = {
     return Order.findAll({ include: OrderItems });
   },
 
-  findById(id) {
-    return Order.findByPk(id, { include: OrderItems });
+  findById(id, options = {}) {
+    return Order.findByPk(id, {
+      include: OrderItems,
+      ...options,
+    });
   },
 
   update(id, data, options = {}) {
     return Order.update(data, { where: { id }, ...options }).then(() =>
-      this.findById(id, { include: OrderItems, ...options })
+      this.findById(id, options)
     );
   },
 

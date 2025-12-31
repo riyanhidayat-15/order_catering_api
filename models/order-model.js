@@ -1,7 +1,5 @@
 import db from "../config/database.js";
 import { DataTypes } from "sequelize";
-import OrderItems from "./order-items-model.js";
-
 const Order = db.define(
   "orders",
   {
@@ -31,12 +29,34 @@ const Order = db.define(
       allowNull: false,
     },
     total_price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(12, 2),
       allowNull: false,
       defaultValue: 0,
     },
+    delivery_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+    delivery_time: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
+    delivery_type: {
+      type: DataTypes.ENUM("PICKUP", "DELIVERY"),
+      defaultValue: "DELIVERY",
+    },
+    payment_method: {
+      type: DataTypes.ENUM("CASH", "TRANSFER", "QRIS"),
+      defaultValue: "CASH",
+    },
     status: {
-      type: DataTypes.ENUM("PENDING", "PROCESS", "DONE", "CANCEL"),
+      type: DataTypes.ENUM(
+        "PENDING",
+        "CONFIRMED",
+        "PROCESS",
+        "DONE",
+        "CANCELLED"
+      ),
       defaultValue: "PENDING",
     },
   },
@@ -45,7 +65,5 @@ const Order = db.define(
     timestamps: true,
   }
 );
-
-Order.hasMany(OrderItems, { foreignKey: "order_id", onDelete: "CASCADE" });
 
 export default Order;

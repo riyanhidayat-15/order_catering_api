@@ -27,16 +27,8 @@ const Menu = db.define(
       defaultValue: true,
     },
     image_url: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: [""],
-      get() {
-        const rawValue = this.getDataValue("images");
-        return JSON.parse(rawValue || [""]);
-      },
-      set(value) {
-        this.setDataValue("images", JSON.stringify(value));
-      },
     },
   },
   {
@@ -44,7 +36,5 @@ const Menu = db.define(
     timestamps: true,
   }
 );
-
-Menu.hasMany(OrderItems, { foreignKey: "menu_id" });
 
 export default Menu;

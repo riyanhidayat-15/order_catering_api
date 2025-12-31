@@ -1,31 +1,27 @@
+import cloudinary from "../config/cloudinary.js";
 import menuRepository from "../repositories/menu-repository.js";
 
-const createMenu = async (data, files) => {
-  if (!files || files.length === 0) {
+const createMenu = async (data, file) => {
+  if (!file) {
     throw new Error("Minimal 1 gambar harus diupload");
   }
 
-  const imageUrls = [];
-
-  for (const file of files) {
-    const result = await new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: "menu_images" },
-        (error, result) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
+  const result = await new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: "menu_images" },
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
         }
-      );
-      uploadStream.end(file.buffer);
-    });
-    imageUrls.push(result.secure_url);
-  }
+      }
+    );
+    uploadStream.end(file.buffer);
+  });
   const menu = await menuRepository.create({
     ...data,
-    images: JSON.stringify(imageUrls),
+    image_url: result.secure_url,
   });
 
   return menu;

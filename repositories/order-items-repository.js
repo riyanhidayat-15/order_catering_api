@@ -1,26 +1,25 @@
 import OrderItems from "../models/order-items-model.js";
 
-const createOrderItems = async (data) => {
-  return await OrderItems.create(data);
+export const createOrderItems = async (data, options = {}) => {
+  return await OrderItems.create(data, options);
 };
 
-const createManyOrderItems = async (items) => {
-  return await OrderItems.bulkCreate(items);
+export const createManyOrderItems = async (items, options = {}) => {
+  return await OrderItems.bulkCreate(items, {
+    ...options,
+    validate: true,
+  });
 };
 
-const findOrderItemsByOrderId = async (orderId) => {
+export const findOrderItemsByOrderId = async (orderId) => {
   return await OrderItems.findAll({
     where: { order_id: orderId },
   });
 };
 
-const deleteByOrderId = async (orderId) => {
-  return await OrderItems.destroy({ where: { order_id: orderId } });
-};
-
-export default {
-  createOrderItems,
-  createManyOrderItems,
-  findOrderItemsByOrderId,
-  deleteByOrderId,
+export const deleteByOrderId = async (orderId, options = {}) => {
+  return await OrderItems.destroy({
+    where: { order_id: orderId },
+    ...options,
+  });
 };

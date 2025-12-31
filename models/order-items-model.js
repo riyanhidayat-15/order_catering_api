@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import db from "../config/database.js";
-import Menu from "./menu-model.js";
-import Order from "./order-model.js";
 
 const OrderItems = db.define(
   "order_items",
@@ -13,15 +11,23 @@ const OrderItems = db.define(
     },
     order_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "orders", key: "id" },
     },
     menu_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "menus", key: "id" },
     },
-    quatity: {
+    quantity: {
       type: DataTypes.INTEGER,
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL(10, 2),
+    },
+    notes: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
   {
@@ -29,8 +35,5 @@ const OrderItems = db.define(
     timestamps: true,
   }
 );
-
-OrderItems.belongsTo(Menu, { foreignKey: "menu_id" });
-OrderItems.belongsTo(Order, { foreignKey: "order_id" });
 
 export default OrderItems;
