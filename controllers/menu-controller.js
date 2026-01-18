@@ -1,5 +1,4 @@
-import cloudinary from "../config/cloudinary.js";
-import Menu from "../models/menu-model.js";
+
 import menuService from "../services/menu-service.js";
 
 const createMenuController = async (req, res) => {

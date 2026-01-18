@@ -1,7 +1,6 @@
 import { Order, OrderItems } from "../models/index-model.js";
 const orderRepository = {
   create(data, options = {}) {
-    console.log("🏪 ORDER REPO HIT!"); // ← INI HARUS MUNCUL!
 
     return Order.create(data, options);
   },

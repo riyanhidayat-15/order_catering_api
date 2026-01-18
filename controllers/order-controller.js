@@ -2,7 +2,6 @@ import orderService from "../services/order-service.js";
 
 const orderController = {
   async create(req, res) {
-    console.log("🛒 CONTROLLER HIT!"); // ← INI HARUS MUNCUL!
     try {
       const order = await orderService.create(req.body);
       res.status(201).json({

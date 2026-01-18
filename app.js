@@ -4,6 +4,7 @@ import db from "./config/database.js";
 import userRoutes from "./routes/user-route.js";
 import menuRoutes from "./routes/menu-route.js";
 import orderRoute from "./routes/order-route.js";
+import cartRoute from "./routes/cart-route.js";
 
 const app = express();
 const port = 4000;
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/menus", menuRoutes);
 app.use("/api/orders", orderRoute);
+app.use("/api/cart", cartRoute);
 
 const startApp = async () => {
   try {
